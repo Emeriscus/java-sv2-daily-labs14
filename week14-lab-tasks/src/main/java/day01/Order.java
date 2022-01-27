@@ -31,4 +31,21 @@ public class Order {
     public List<Product> getProducts() {
         return products;
     }
+
+    public String sayHyToOrder(Order o) {
+        return "Hello " + o;
+    }
+
+    public static String sayHyToOrder2(Order o) {
+        return "Hello " + o;
+    }
+
+    @Override
+    public String toString() {
+        return "Order{" +
+                "status='" + status + '\'' +
+                ", orderDate=" + orderDate +
+                ", products=" + products +
+                '}';
+    }
 }

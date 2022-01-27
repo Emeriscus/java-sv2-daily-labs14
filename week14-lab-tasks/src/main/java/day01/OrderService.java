@@ -27,6 +27,61 @@ public class OrderService {
                 .count();
     }
 
+    public List<Product> findProductOverPrice(int price) {
+        return orders.stream()
+                .flatMap(order -> order.getProducts().stream()
+                        .filter(product -> product.getPrice() > price))
+                .distinct()
+                .toList();
+    }
+
+
+    //   más osztálybeli nem static, paraméteres metódus használata:
+    public List<String> methodReferenceTest() {
+        Order o = new Order("aaa", LocalDate.now());
+        return orders.stream()
+                .map(o::sayHyToOrder)
+                .map(String::toUpperCase)
+                .toList();
+    }
+
+    //   más osztálybeli static, paraméteres metódus használata:
+    public List<String> methodReferenceTest0() {
+        return orders.stream()
+                .map(Order::sayHyToOrder2)
+                .map(String::toUpperCase)
+                .toList();
+    }
+
+    //   más osztálybeli paraméter nélküli metódus használata:
+    public List<String> methodReferenceTest1() {
+        return orders.stream()
+                .map(Order::getStatus)
+                .toList();
+    }
+
+    //     osztályon belüli nem static, paraméteres metódus használata:
+    public List<String> methodReferenceTest2() {
+        return orders.stream()
+                .map(order -> orderToString(order))
+                .toList();
+    }
+
+    public String orderToString(Order order) {
+        return order.getStatus() + " " + order.getOrderDate().toString();
+    }
+
+    // osztályon belüli static paraméteres metódus használata:
+    public List<String> methodReferenceTest3() {
+        return orders.stream()
+                .map(OrderService::orderToString2)
+                .toList();
+    }
+
+    public static String orderToString2(Order order) {
+        return order.getStatus() + " " + order.getOrderDate().toString();
+    }
+
     public List<Order> getOrdersBetweenTwoDate(LocalDate start, LocalDate end) {
         return orders.stream()
                 .filter(order -> order.getOrderDate().isAfter(start)

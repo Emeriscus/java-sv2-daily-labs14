@@ -103,4 +103,13 @@ class OrderServiceTest {
 
         assertEquals(3, result.size());
     }
+
+    @Test
+    void flatMapTest() {
+        List<Product> result = orderService.findProductOverPrice(400);
+
+        result.stream().forEach(product -> System.out.println(product.getPrice()));
+
+        assertEquals(2, result.size());
+    }
 }
